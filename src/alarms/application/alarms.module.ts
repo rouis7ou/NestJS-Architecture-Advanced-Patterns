@@ -1,11 +1,14 @@
 import { DynamicModule, Module, Type } from '@nestjs/common';
-import { AlarmsService } from './alarms.service';
-import { AlarmsController } from '../presenters/http/alarms.controller';
 import { AlarmFactory } from '../domain/factories/alarm.factory';
+import { AlarmsController } from '../presenters/http/alarms.controller';
+import { AlarmsService } from './alarms.service';
 import { CreateAlarmCommandHandler } from './commands/create-alarm.command-handler';
-import { GetAlarmsQueryHandler } from './queries/get-alarms.query.handler';
 import { AlarmCreatedEventHandler } from './event-handlers/alarm-created.event-handler';
-import { AcknowledgeAlarmCommandHandler } from "./commands/acknowledge-alarm.command-handler";
+import { AcknowledgeAlarmCommandHandler } from './commands/acknowledge-alarm.command-handler';
+import { CascadingAlarmsSaga } from './sagas/cascading-alarms.saga';
+import { NotifyFacilitySupervisorCommandHandler } from './commands/notify-facility-supervisor.command-handler';
+import { UnacknowledgedAlarmsSaga } from './sagas/unacknowledged-alarms.saga';
+import { GetAlarmsQueryHandler } from "./queries/get-alarms.query.handler";
 import { AlarmAcknowledgedEventHandler } from "./event-handlers/alarm-acknowledged.event.handler";
 
 @Module({
@@ -17,7 +20,10 @@ import { AlarmAcknowledgedEventHandler } from "./event-handlers/alarm-acknowledg
     GetAlarmsQueryHandler,
     AlarmCreatedEventHandler,
     AcknowledgeAlarmCommandHandler,
-    AlarmAcknowledgedEventHandler
+    AlarmAcknowledgedEventHandler,
+    CascadingAlarmsSaga,
+    NotifyFacilitySupervisorCommandHandler,
+    UnacknowledgedAlarmsSaga,
   ],
 })
 export class AlarmsModule {

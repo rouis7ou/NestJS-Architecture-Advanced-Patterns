@@ -25,6 +25,9 @@ export class EventsBridge
   ) {}
 
   onApplicationBootstrap() {
+    // In the poll-based approach, instead of using a change stream (as we're doing here), we would periodically
+    // poll the event store for new events. To keep track of what events we already processed,
+    // we would need to store the last processed event (cursor) in a separate collection.
     this.changeStream = this.eventStore
       .watch()
       .on('change', (change: ChangeStreamInsertDocument<EventDocument>) => {

@@ -17,11 +17,7 @@ export class AlarmCreatedEventHandler
   async handle(event: SerializedEventPayload<AlarmCreatedEvent>) {
     this.logger.log(`Alarm created event: ${JSON.stringify(event)}`);
 
-    // In a real-world application, we would have to ensure that this operation is atomic
-    // with the creation of the alarm. Otherwise, we could end up with an alarm that is not reflected
-    // in the read model (e.g. because the database operation fails).
-    // For more information, check out "Transactional inbox/outbox pattern".
-    await this.upsertMaterializedAlarmRepository.upsert({ // 👈
+    await this.upsertMaterializedAlarmRepository.upsert({
       id: event.alarm.id,
       name: event.alarm.name,
       severity: event.alarm.severity,

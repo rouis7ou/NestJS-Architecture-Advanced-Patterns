@@ -1,6 +1,6 @@
 import { Type } from '@nestjs/common';
 
-export class EventClsRegistry {
+export class EventCliRegistry {
   private static readonly eventClsMap = new Map<string, any>();
 
   static add(eventCls: Type): void {
