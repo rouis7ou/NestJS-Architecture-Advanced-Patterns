@@ -5,18 +5,25 @@ import { CreateAlarmRepository } from '../../../application/ports/create-alarm.r
 import { OrmCreateAlarmRepository } from './repositories/create-alarm.repository';
 import { AlarmItem } from '../../../domain/alarm-item';
 import { AlarmItemEntity } from './entities/alarm-item.entity';
-import { FindAlarmsRepository } from "../../../application/ports/find-alarms.repository";
-import { OrmFindAlarmRepository } from "./repositories/find-alarms.repository";
-import { UpsertMaterializedAlarmRepository } from "../../../application/ports/upsert-materialized-alarm.repository";
-import { OrmUpsertMaterializedAlarmRepository } from "./repositories/upsert-materialized-alarm.repository";
-import { MongooseModule } from "@nestjs/mongoose";
-import { MaterializeAlarmView, MaterializedAlarmViewSchema } from "./schemas/materialize-alarm-view.schema";
+import { FindAlarmsRepository } from '../../../application/ports/find-alarms.repository';
+import { OrmFindAlarmRepository } from './repositories/find-alarms.repository';
+import { UpsertMaterializedAlarmRepository } from '../../../application/ports/upsert-materialized-alarm.repository';
+import { OrmUpsertMaterializedAlarmRepository } from './repositories/upsert-materialized-alarm.repository';
+import { MongooseModule } from '@nestjs/mongoose';
+import {
+  MaterializeAlarmView,
+  MaterializedAlarmViewSchema,
+} from './schemas/materialize-alarm-view.schema';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AlarmEntity, AlarmItemEntity]),
-    MongooseModule.forFeature([{
-      name: MaterializeAlarmView.name, schema: MaterializedAlarmViewSchema
-    }]),
+  imports: [
+    TypeOrmModule.forFeature([AlarmEntity, AlarmItemEntity]),
+    MongooseModule.forFeature([
+      {
+        name: MaterializeAlarmView.name,
+        schema: MaterializedAlarmViewSchema,
+      },
+    ]),
   ],
 
   providers: [
@@ -26,13 +33,17 @@ import { MaterializeAlarmView, MaterializedAlarmViewSchema } from "./schemas/mat
     },
     {
       provide: FindAlarmsRepository,
-      useClass: OrmFindAlarmRepository
+      useClass: OrmFindAlarmRepository,
     },
     {
       provide: UpsertMaterializedAlarmRepository,
-      useClass: OrmUpsertMaterializedAlarmRepository
-    }
+      useClass: OrmUpsertMaterializedAlarmRepository,
+    },
   ],
-  exports: [CreateAlarmRepository, FindAlarmsRepository, UpsertMaterializedAlarmRepository],
+  exports: [
+    CreateAlarmRepository,
+    FindAlarmsRepository,
+    UpsertMaterializedAlarmRepository,
+  ],
 })
 export class OrmAlarmPersistenceModule {}
